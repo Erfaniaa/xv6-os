@@ -20,3 +20,7 @@
 #define SYS_link   19
 #define SYS_mkdir  20
 #define SYS_close  21
+
+//ADDED FOR OS PROCESS MIGRATION PROJECT:
+#define SYS_saveprocess 22
+#define SYS_loadprocess 23

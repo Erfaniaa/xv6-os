@@ -104,6 +104,10 @@ extern int sys_wait(void);
 extern int sys_write(void);
 extern int sys_uptime(void);
 
+//ADDED FOR OS PROCESS MIGRATION PROJECT:
+extern int sys_saveprocess(void);
+extern int sys_loadprocess(void);
+
 static int (*syscalls[])(void) = {
 [SYS_fork]    sys_fork,
 [SYS_exit]    sys_exit,
@@ -126,6 +130,8 @@ static int (*syscalls[])(void) = {
 [SYS_link]    sys_link,
 [SYS_mkdir]   sys_mkdir,
 [SYS_close]   sys_close,
+[SYS_saveprocess]   sys_saveprocess,
+[SYS_loadprocess]   sys_loadprocess
 };
 
 void

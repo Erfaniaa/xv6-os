@@ -6,6 +6,11 @@
 #include "x86.h"
 #include "proc.h"
 #include "spinlock.h"
+//ADDED FOR OS PROCESS MIGRATION PROJECT:
+#include "sleeplock.h"
+#include "fs.h"
+#include "buf.h"
+
 
 struct {
   struct spinlock lock;
@@ -531,4 +536,79 @@ procdump(void)
     }
     cprintf("\n");
   }
+}
+
+//ADDED FOR OS PROCESS MIGRATION PROJECT DEBUG:
+void print(struct proc *p) {
+  cprintf("sz: %d\n", p->sz);
+  cprintf("kstack: %s\n", p->kstack);
+  cprintf("pid: %d\n", p->pid);
+  cprintf("killed: %d\n", p->killed);
+  cprintf("name: %s\n", p->name);
+  cprintf("\n\n"); 
+}
+
+//ADDED FOR OS PROCESS MIGRATION PROJECT:
+int
+saveprocess(void) {
+    struct proc *curproc = myproc();
+    struct buf *buffer = bread(1, 800);
+    memmove(buffer->data, curproc, sizeof(*curproc));
+    bwrite(buffer);
+    brelse(buffer);
+    exit();
+    return 0;
+}
+
+//ADDED FOR OS PROCESS MIGRATION PROJECT:
+int
+loadprocess(void)
+{
+  int pid;
+  struct proc *np, *saved_process = 0;
+
+  //ADDED FOR OS PROCESS MIGRATION PROJECT:
+  struct buf *buffer = bread(1, 800);
+  saved_process = (struct proc *) buffer->data;
+  brelse(buffer);
+
+  // Allocate process.
+  if((np = allocproc()) == 0){
+    cprintf("err 5\n");
+
+    return -1;
+  }
+
+  // Copy process state from proc.
+  if((np->pgdir = copyuvm(saved_process->pgdir, saved_process->sz)) == 0){
+    kfree(np->kstack);
+    np->kstack = 0;
+    np->state = UNUSED;
+    cprintf("err 6\n");
+
+    return -1;
+  }
+  np->sz = saved_process->sz;
+  np->parent = saved_process;
+  *np->tf = *saved_process->tf;
+
+  // Clear %eax so that fork returns 0 in the child.
+  np->tf->eax = 0;
+  int i;
+  for(i = 0; i < NOFILE; i++)
+    if(saved_process->ofile[i])
+      np->ofile[i] = filedup(saved_process->ofile[i]);
+  np->cwd = idup(saved_process->cwd);
+
+  safestrcpy(np->name, saved_process->name, sizeof(saved_process->name));
+
+  pid = np->pid;
+
+  acquire(&ptable.lock);
+
+  np->state = RUNNABLE;
+
+  release(&ptable.lock);
+
+  return pid;
 }

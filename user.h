@@ -24,6 +24,10 @@ char* sbrk(int);
 int sleep(int);
 int uptime(void);
 
+//ADDED FOR OS PROCESS MIGRATION PROJECT:
+int saveprocess(void);
+int loadprocess(void);
+
 // ulib.c
 int stat(char*, struct stat*);
 char* strcpy(char*, char*);

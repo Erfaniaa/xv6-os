@@ -7,6 +7,20 @@
 #include "mmu.h"
 #include "proc.h"
 
+//ADDED FOR OS PROCESS MIGRATION PROJECT:
+int
+sys_saveprocess(void)
+{
+  return saveprocess();
+}
+
+//ADDED FOR OS PROCESS MIGRATION PROJECT:
+int
+sys_loadprocess(void)
+{
+  return loadprocess();
+}
+
 int
 sys_fork(void)
 {

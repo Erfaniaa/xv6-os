@@ -525,6 +525,9 @@ fourfiles(void)
 
   for(pi = 0; pi < 4; pi++){
     fname = names[pi];
+    printf(1, fname);
+    printf(1, "\n");
+
     unlink(fname);
 
     pid = fork();
@@ -1745,59 +1748,46 @@ rand()
   return randstate;
 }
 
+//ADDED FOR OS PROCESS MIGRATION PROJECT:
+void
+test_process_migration(void)
+{
+    int pid = fork();
+    if (pid < 0)
+        exit();
+    if (pid > 0)
+    {
+      sleep(800);
+      pid = loadprocess();
+    }
+    else
+    {
+        printf(0, "Begin\n");
+        for (int i = 1; i <= 4; i++) {
+            printf(0, "%d seconds\n", i);
+            sleep(100);
+        }
+        printf(0, "Process is going to be paused.\n");
+        if (saveprocess() != 0)
+        {
+          printf(0, "Save error\n");
+          exit();
+        }
+        printf(0, "Process is being resumed.\n");
+        for (int i = 5; i <= 8; i++) {
+            printf(0, "%d seconds\n", i);
+            sleep(100);
+        }
+        printf(0, "Finish\n");
+    }
+    wait();
+    exit();
+}
+
 int
 main(int argc, char *argv[])
 {
-  printf(1, "usertests starting\n");
-
-  if(open("usertests.ran", 0) >= 0){
-    printf(1, "already ran user tests -- rebuild fs.img\n");
-    exit();
-  }
-  close(open("usertests.ran", O_CREATE));
-
-  argptest();
-  createdelete();
-  linkunlink();
-  concreate();
-  fourfiles();
-  sharedfd();
-
-  bigargtest();
-  bigwrite();
-  bigargtest();
-  bsstest();
-  sbrktest();
-  validatetest();
-
-  opentest();
-  writetest();
-  writetest1();
-  createtest();
-
-  openiputtest();
-  exitiputtest();
-  iputtest();
-
-  mem();
-  pipe1();
-  preempt();
-  exitwait();
-
-  rmdot();
-  fourteen();
-  bigfile();
-  subdir();
-  linktest();
-  unlinkread();
-  dirfile();
-  iref();
-  forktest();
-  bigdir(); // slow
-
-  uio();
-
-  exectest();
-
+  //ADDED FOR OS PROCESS MIGRATION PROJECT:
+  test_process_migration();
   exit();
 }

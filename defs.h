@@ -1,3 +1,4 @@
+
 struct buf;
 struct context;
 struct file;
@@ -120,6 +121,10 @@ void            userinit(void);
 int             wait(void);
 void            wakeup(void*);
 void            yield(void);
+
+//ADDED FOR OS PROCESS MIGRATION PROJECT:
+int				saveprocess(void);
+int				loadprocess(void);
 
 // swtch.S
 void            swtch(struct context**, struct context*);
