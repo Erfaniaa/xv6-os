@@ -1,7 +1,7 @@
 # xv6 Operating System with Process Migration
 > It was a project for Operating Systems course of Shahid Beheshti University
 
-Project full statement in Persian: [https://github.com/Erfaniaa/xv6-public/blob/master/OS_Project_Statement.pdf](https://github.com/Erfaniaa/xv6-public/blob/master/OS_Project_Statement.pdf)
+Project full statement in Persian: [https://github.com/Erfaniaa/xv6-os/blob/master/OS_Project_Statement.pdf](https://github.com/Erfaniaa/xv6-os/blob/master/OS_Project_Statement.pdf)
 
 Purpose of doing this project is to add "process migration" feature to MIT xv6 OS.
 
