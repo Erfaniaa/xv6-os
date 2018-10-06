@@ -15,7 +15,7 @@ Using this method, we may migrate processes from a computer to other computers.
 
 ## Dependencies
 
-First of all, install QEMU.
+First of all, install [https://www.qemu.org/download/](QEMU).
 
 ## Installation and Usage
 First:
@@ -24,8 +24,8 @@ First:
 make
 make qemu
 ```
-
 And then:
+
 ```sh
 usertests
 ```
