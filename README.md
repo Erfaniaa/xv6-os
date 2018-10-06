@@ -18,12 +18,14 @@ Using this method, we may migrate processes from a computer to other computers.
 First of all, install QEMU.
 
 ## Installation and Usage
+First:
 
 ```sh
 make
 make qemu
 ```
 
+And then:
 ```sh
 usertests
 ```
