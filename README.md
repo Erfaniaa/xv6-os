@@ -15,7 +15,7 @@ Using this method, we may migrate processes from a computer to other computers.
 
 ## Dependencies
 
-First of all, install [https://www.qemu.org/download/](QEMU).
+First of all, install [QEMU](https://www.qemu.org/download/).
 
 ## Installation and Usage
 First:
